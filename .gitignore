@@ -165,6 +165,12 @@ typings/
 # IntelliJ project files
 .idea
 *.iml
-out
-gen
+
+.DS_Store
+
+node_modules
 build
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
