@@ -1,0 +1,27 @@
+{
+  "name": "business-budget-calculator",
+  "version": "0.0.1",
+  "description": "Effective income, cost and profit calculator. Ideal for planning your next business venture.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikolai-tenev/business-budget-calculator.git"
+  },
+  "keywords": [
+    "business",
+    "sme",
+    "budget",
+    "calculator",
+    "business",
+    "plan"
+  ],
+  "author": "Nikolai Tenev <nikolai.tenev@digidworks.com> (https://digidworks.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nikolai-tenev/business-budget-calculator/issues"
+  },
+  "homepage": "https://github.com/nikolai-tenev/business-budget-calculator#readme"
+}
