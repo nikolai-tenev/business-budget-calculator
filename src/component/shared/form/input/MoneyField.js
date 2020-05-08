@@ -21,7 +21,7 @@ class NumberFormatBridge extends Component {
     }
 
     onChange = (values) => {
-        this.props.form.setFieldValue(this.props.field.name, values.value);
+        this.props.form.setFieldValue(this.props.field.name, values.floatValue);
     }
 }
 

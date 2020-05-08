@@ -12,7 +12,7 @@ import {MoneyField} from "../shared/form/input/MoneyField";
 import {RadioGroup} from "../shared/form/input/RadioGroup";
 import {CostTypes} from "../../configuration/enums";
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
-import Radio from "@material-ui/core/Radio/Radio";
+import Radio from "@material-ui/core/Radio";
 import {Switch} from "../shared/form/input/Switch";
 import {DatePicker} from "../shared/form/input/DatePicker";
 import moment from "moment";
@@ -40,7 +40,7 @@ class IncomeForm extends Component {
             enableReinitialize={true}
             validateOnBlur={false}
         >
-            {({isSubmitting}) => (
+            {({isSubmitting, values}) => (
                 <Form noValidate>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6}>

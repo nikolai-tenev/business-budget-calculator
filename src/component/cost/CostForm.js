@@ -15,6 +15,9 @@ import {MoneyField} from "../shared/form/input/MoneyField";
 import {RadioGroup} from "../shared/form/input/RadioGroup";
 import {Switch} from "../shared/form/input/Switch";
 import {DatePicker} from "../shared/form/input/DatePicker";
+import {applicationContext} from "../../service/ApplicationContext";
+
+const uiService = applicationContext.uiService;
 
 class CostForm extends Component {
     static propTypes = {
@@ -34,7 +37,7 @@ class CostForm extends Component {
         return <Formik
             initialValues={initialValues}
             validationSchema={COST}
-            onSubmit={this.props.handleSubmit}
+            onSubmit={this.onSubmit}
             enableReinitialize={true}
             validateOnBlur={false}
         >
@@ -95,6 +98,17 @@ class CostForm extends Component {
             )}
         </Formik>;
     }
+
+    onSubmit = (values, {setSubmitting}) => {
+
+        const preparedValues = {
+            ...values,
+            from: !!values.from ? values.from.toISOString() : values.from,
+            to: !!values.to ? values.to.toISOString() : values.to
+        };
+
+        this.props.handleSubmit(preparedValues, {setSubmitting});
+    };
 }
 
 export default CostForm;
