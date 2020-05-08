@@ -29,7 +29,7 @@ class IncomeListPage extends Component {
     render() {
         const {list, sortField, sortDirection} = service;
 
-        return <AppLayout title="Incomes List">
+        return <AppLayout title="All incomes">
             <Button
                 variant="contained"
                 color="primary"

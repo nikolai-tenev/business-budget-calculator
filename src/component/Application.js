@@ -23,8 +23,16 @@ import ConfirmationDialogsContainer from "./ui/ConfirmationDialogsContainer";
 import CostListPage from "./cost/CostListPage";
 import CostCreatePage from "./cost/CostCreatePage";
 import CostEditPage from "./cost/CostEditPage";
+import blue from "@material-ui/core/colors/blue";
+import {deepOrange} from "@material-ui/core/colors";
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 let theme = createMuiTheme({
+    palette: {
+        primary: blue,
+        secondary: deepOrange,
+    },
     overrides: {
         MuiFormControl: {
             root: {
@@ -39,25 +47,27 @@ theme = responsiveFontSizes(theme);
 class Application extends Component {
     render() {
         return <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path={HOMEPAGE_URL}>
-                        <Redirect to={DEFAULT_PAGE_URL}/>
-                    </Route>
-                    <Route exact path={DASHBOARD_PAGE_URL} component={DashboardPage}/>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+                <CssBaseline/>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path={HOMEPAGE_URL}>
+                            <Redirect to={DEFAULT_PAGE_URL}/>
+                        </Route>
+                        <Route exact path={DASHBOARD_PAGE_URL} component={DashboardPage}/>
 
-                    <Route exact path={INCOME_PAGE_URL} component={IncomeListPage}/>
-                    <Route exact path={INCOME_CREATE_PAGE_URL} component={IncomeCreatePage}/>
-                    <Route exact path={INCOME_EDIT_PAGE_URL} component={IncomeEditPage}/>
+                        <Route exact path={INCOME_PAGE_URL} component={IncomeListPage}/>
+                        <Route exact path={INCOME_CREATE_PAGE_URL} component={IncomeCreatePage}/>
+                        <Route exact path={INCOME_EDIT_PAGE_URL} component={IncomeEditPage}/>
 
-                    <Route exact path={COST_PAGE_URL} component={CostListPage}/>
-                    <Route exact path={COST_CREATE_PAGE_URL} component={CostCreatePage}/>
-                    <Route exact path={COST_EDIT_PAGE_URL} component={CostEditPage}/>
-                </Switch>
-            </BrowserRouter>
-            <SnackbarsContainer/>
-            <ConfirmationDialogsContainer/>
+                        <Route exact path={COST_PAGE_URL} component={CostListPage}/>
+                        <Route exact path={COST_CREATE_PAGE_URL} component={CostCreatePage}/>
+                        <Route exact path={COST_EDIT_PAGE_URL} component={CostEditPage}/>
+                    </Switch>
+                </BrowserRouter>
+                <SnackbarsContainer/>
+                <ConfirmationDialogsContainer/>
+            </MuiPickersUtilsProvider>
         </ThemeProvider>;
     }
 }

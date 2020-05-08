@@ -11,7 +11,7 @@ const uiService = applicationContext.uiService;
 @withRouter
 class IncomeCreatePage extends Component {
     render() {
-        return <AppLayout title="Create Income">
+        return <AppLayout title="Add an income">
             <IncomeForm
                 handleSubmit={this.handleSubmit}
             />

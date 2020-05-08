@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import {PropTypes} from "prop-types";
-import {observer} from "mobx-react";
-import {Field, Form, Formik} from "formik";
-import {CheckboxWithLabel, RadioGroup, Switch, TextField} from "formik-material-ui";
+import {Form, Formik} from "formik";
 import {COST_PAGE_URL} from "../../configuration/application-urls";
 import Grid from "@material-ui/core/Grid";
 import {isEmpty} from "lodash";
-import {COST_CREATE, COST_EDIT} from "../../configuration/validation-schemas";
+import {COST} from "../../configuration/validation-schemas";
 import FormButtons from "../shared/form/FormButtons";
-import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import {CostTypes} from "../../configuration/enums";
+import moment from "moment";
+import {TextField} from "../shared/form/input/TextField";
+import {MoneyField} from "../shared/form/input/MoneyField";
+import {RadioGroup} from "../shared/form/input/RadioGroup";
+import {Switch} from "../shared/form/input/Switch";
+import {DatePicker} from "../shared/form/input/DatePicker";
 
-@observer
 class CostForm extends Component {
     static propTypes = {
         values: PropTypes.object,
@@ -23,7 +25,7 @@ class CostForm extends Component {
     render() {
         const {values} = this.props;
 
-        let initialValues = {name: "", type: Object.keys(CostTypes)[0], ongoing: "", from: "", to: "", value: ""};
+        let initialValues = {name: "", type: Object.keys(CostTypes)[0], ongoing: false, from: moment(), to: moment(), value: 0};
 
         if (!isEmpty(values)) {
             initialValues = values;
@@ -31,66 +33,62 @@ class CostForm extends Component {
 
         return <Formik
             initialValues={initialValues}
-            validationSchema={isEmpty(values) ? COST_CREATE : COST_EDIT}
+            validationSchema={COST}
             onSubmit={this.props.handleSubmit}
             enableReinitialize={true}
             validateOnBlur={false}
         >
-            {({isSubmitting}) => (
+            {({isSubmitting, values}) => (
                 <Form noValidate>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6}>
-                            <Field component={TextField}
-                                   id="name"
-                                   label="Name"
-                                   name="name"
-                                   autoFocus
-                                   required
+                            <TextField
+                                label="Name"
+                                name="name"
+                                autoFocus
+                                required
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <FormLabel component="legend">Type</FormLabel>
-                            <Field component={RadioGroup}
-                                   id="type"
-                                   label="Type"
-                                   name="type"
-                                   required
+                            <MoneyField
+                                label="Value"
+                                name="value"
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <RadioGroup
+                                row
+                                label="Type"
+                                name="type"
+                                required
                             >
                                 {
                                     Object.entries(CostTypes).map(([key, value]) => <FormControlLabel key={key} value={key} control={<Radio/>} label={value.label}/>)
                                 }
-                            </Field>
+                            </RadioGroup>
                         </Grid>
                         <Grid item xs={12} md={4}>
-                            <FormControlLabel control={<Field component={Switch}
-                                   id="ongoing"
-                                   label="Ongoing"
-                                   name="ongoing"
-                                   type="checkbox"
-                            />} label="Ongoing" />
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <Field component={TextField}
-                                   id="from"
-                                   label="From"
-                                   name="from"
+                            <Switch
+                                name="ongoing"
+                                label="Ongoing"
                             />
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <Field component={TextField}
-                                   id="to"
-                                   label="To"
-                                   name="to"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Field component={TextField}
-                                   id="value"
-                                   label="Value"
-                                   name="value"
-                                   required
-                            />
-                        </Grid>
+                        {values && !values["ongoing"] &&
+                        <>
+                            <Grid item xs={12} md={4}>
+                                <DatePicker
+                                    label="From"
+                                    name="from"
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <DatePicker
+                                    label="To"
+                                    name="to"
+                                />
+                            </Grid>
+                        </>}
                     </Grid>
                     <FormButtons isSubmitting={isSubmitting} listUrl={COST_PAGE_URL}/>
                 </Form>

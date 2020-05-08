@@ -12,7 +12,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
-import {ChevronLeft, Dashboard as DashboardIcon, ExposureNeg1, ExposurePlus1, Menu} from "@material-ui/icons";
+import {Dashboard as DashboardIcon, ExposureNeg1, ExposurePlus1, Menu} from "@material-ui/icons";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -23,7 +23,7 @@ import Avatar from "@material-ui/core/Avatar";
 import {Copyright} from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper/Paper";
-import {deepPurple} from "@material-ui/core/colors";
+import {grey} from "@material-ui/core/colors";
 
 const css = (theme) => ({
     root: {
@@ -31,17 +31,14 @@ const css = (theme) => ({
         minHeight: '100vh',
     },
     toolbar: {
+        paddingLeft: 0,
         paddingRight: 24,
-    },
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
+        justifyContent: "space-between"
     },
     toolbarLogo: {
-        marginLeft: "auto",
-        marginRight: "auto",
+        width: "150px",
+        height: "auto",
+        borderRadius: 0,
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -49,25 +46,17 @@ const css = (theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        backgroundColor: deepPurple[900],
-        color: "#fff"
+        backgroundColor: "#fff",
+        color: grey[900]
     },
     appBarShift: {
-        marginLeft: APPLICATION_DRAWER_WIDTH,
-        width: `calc(100% - ${APPLICATION_DRAWER_WIDTH}px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
     menuButton: {
-        marginRight: 36,
-    },
-    menuButtonHidden: {
-        display: 'none',
-    },
-    title: {
-        flexGrow: 1,
+        color: grey[900]
     },
     drawerPaper: {
         position: 'relative',
@@ -107,6 +96,8 @@ const css = (theme) => ({
     }
 });
 
+const uiService = applicationContext.uiService;
+
 @withRouter
 @withStyles(css)
 @observer
@@ -117,8 +108,6 @@ class AppLayout extends Component {
 
     render() {
         const {classes, title} = this.props;
-        const uiService = applicationContext.uiService;
-
 
         return <div className={classes.root}>
             <Drawer
@@ -128,12 +117,7 @@ class AppLayout extends Component {
                 }}
                 open={uiService.drawerOpen}
             >
-                <div className={classes.toolbarIcon}>
-                    <Avatar className={classes.toolbarLogo} alt="DigidWorks" src="https://digidworks.com/android-chrome-512x512.png"/>
-                    <IconButton onClick={this.handleDrawerClose}>
-                        <ChevronLeft/>
-                    </IconButton>
-                </div>
+                <Toolbar/>
                 <Divider/>
                 <List>
                     <ListItem button component={Link} to={DASHBOARD_PAGE_URL}>
@@ -160,15 +144,13 @@ class AppLayout extends Component {
                 <AppBar className={clsx(classes.appBar, uiService.drawerOpen && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={this.handleDrawerOpen}
-                            className={clsx(classes.menuButton, uiService.drawerOpen && classes.menuButtonHidden)}
-                        >
+                            className={classes.menuButton}
+                            aria-label={uiService.drawerOpen ? "close drawer" : "open drawer"}
+                            onClick={this.handleDrawerToggle}>
                             <Menu/>
                         </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>{title}</Typography>
+                        <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.title}>{title}</Typography>
+                        <Avatar className={classes.toolbarLogo} alt="DigidWorks" src="/digid-works-logo-trimmed.png" component="a" href="https://digidworks.com"/>
                     </Toolbar>
                 </AppBar>
                 <Container className={classes.container}>
@@ -184,12 +166,12 @@ class AppLayout extends Component {
         </div>;
     }
 
-    handleDrawerOpen = () => {
-        applicationContext.uiService.openDrawer();
-    };
-
-    handleDrawerClose = () => {
-        applicationContext.uiService.closeDrawer();
+    handleDrawerToggle = () => {
+        if (uiService.drawerOpen) {
+            uiService.closeDrawer();
+        } else {
+            uiService.openDrawer();
+        }
     };
 }
 

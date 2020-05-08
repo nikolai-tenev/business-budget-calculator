@@ -11,7 +11,7 @@ const uiService = applicationContext.uiService;
 @withRouter
 class CostCreatePage extends Component {
     render() {
-        return <AppLayout title="Create Cost">
+        return <AppLayout title="Add a cost">
             <CostForm
                 handleSubmit={this.handleSubmit}
             />

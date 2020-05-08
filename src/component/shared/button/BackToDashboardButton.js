@@ -4,14 +4,14 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {DASHBOARD_PAGE_URL} from "../../../configuration/application-urls";
 import {withStyles} from "@material-ui/core";
-import {deepOrange} from "@material-ui/core/colors";
+import {purple} from "@material-ui/core/colors";
 
 const css = () => ({
     dashboardButton: {
         color: "#fff",
-        backgroundColor: deepOrange[500],
+        backgroundColor: purple[900],
         '&:hover': {
-            backgroundColor: deepOrange[700],
+            backgroundColor: purple[700],
         },
     }
 });

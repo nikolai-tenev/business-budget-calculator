@@ -29,7 +29,7 @@ class CostListPage extends Component {
     render() {
         const {list, sortField, sortDirection} = service;
 
-        return <AppLayout title="Costs List">
+        return <AppLayout title="All costs">
             <Button
                 variant="contained"
                 color="primary"
