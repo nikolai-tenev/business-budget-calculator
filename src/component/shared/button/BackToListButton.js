@@ -10,7 +10,7 @@ const BackToListButton = (props) => (
         to={props.url}
         disabled={props.disabled}
     >
-        Go to the list
+        Cancel
     </Button>
 );
 

@@ -14,6 +14,7 @@
   "author": "Nikolai Tenev <nikolai.tenev@digidworks.com> (https://digidworks.com)",
   "license": "Apache-2.0",
   "main": "index.js",
+  "homepage": "https://digidworks.com/tools/business-budget-calculator/",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",

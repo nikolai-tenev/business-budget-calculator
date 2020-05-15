@@ -55,6 +55,11 @@ export class BaseLocalStorageService extends BaseService {
     sortDirection;
 
     /**
+     * Special sorting function. If nil, the default comparison operators will be used.
+     */
+    sortingFunction;
+
+    /**
      * All items.
      * @type {Array}
      */
@@ -100,6 +105,10 @@ export class BaseLocalStorageService extends BaseService {
         this.sortDirection = sortDirection;
     };
 
+    setSortingFunction = (func) => {
+        this.sortingFunction = func;
+    };
+
     @action
     setAll = (all) => {
         this.all = all;
@@ -124,7 +133,9 @@ export class BaseLocalStorageService extends BaseService {
 
         try {
             const allRecords = [];
-            await this.store.iterate((record) => allRecords.push(record));
+            await this.store.iterate((record) => {
+                allRecords.push(record);
+            });
 
             this.setAll(allRecords);
         } finally {
@@ -178,11 +189,27 @@ export class BaseLocalStorageService extends BaseService {
             });
 
             allItems.sort((first, second) => {
-                if (first[sortField] < second[sortField]) {
-                    return sortDirection === "asc" ? -1 : 1;
+                const isAsc = sortDirection === "asc";
+                const left = first[sortField];
+                const right = second[sortField];
+
+                if (isNil(left)) {
+                    return isAsc ? -1 : 1;
                 }
-                if (first[sortField] > second[sortField]) {
-                    return sortDirection === "asc" ? 1 : -1;
+
+                if (isNil(right)) {
+                    return isAsc ? 1 : -1;
+                }
+
+                if (!isNil(this.sortingFunction)) {
+                    return this.sortingFunction(first, second);
+                }
+
+                if (left < right) {
+                    return isAsc ? -1 : 1;
+                }
+                if (left > right) {
+                    return isAsc ? 1 : -1;
                 }
 
                 return 0;
@@ -190,11 +217,8 @@ export class BaseLocalStorageService extends BaseService {
 
             let totalCount = allItems.length;
 
-            allItems.splice(0, (currentPage - 1) * rowsPerPage);
-            allItems.splice((currentPage + 1) * rowsPerPage);
-
             this.setTotalRows(totalCount);
-            this.setList(allItems);
+            this.setList(allItems.slice(currentPage * rowsPerPage, (currentPage + 1) * rowsPerPage));
         } finally {
             this.setLoading(false);
         }
@@ -223,7 +247,7 @@ export class BaseLocalStorageService extends BaseService {
      * @returns {Promise<any>}
      */
     save = async (values) => {
-        this.setLoading(true);
+        // this.setLoading(true);
         let id = values.id;
         let oldRecord = {};
 
@@ -239,7 +263,7 @@ export class BaseLocalStorageService extends BaseService {
 
             return await this.store.setItem(id, {...oldRecord, ...values});
         } finally {
-            this.setLoading(false);
+            // this.setLoading(false);
         }
     };
 
@@ -249,12 +273,12 @@ export class BaseLocalStorageService extends BaseService {
      * @returns {Promise<void>}
      */
     delete = async (id) => {
-        this.setLoading(true);
+        // this.setLoading(true);
 
         try {
             return await this.store.removeItem(id);
         } finally {
-            this.setLoading(false);
+            // this.setLoading(false);
         }
     };
 }

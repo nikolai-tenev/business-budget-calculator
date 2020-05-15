@@ -1,35 +1,17 @@
 import React, {Component} from 'react';
-import AppLayout from "../shared/AppLayout";
-import CostForm from "./CostForm";
 import {applicationContext} from "../../service/ApplicationContext";
-import {COST_EDIT_PAGE_URL} from "../../configuration/application-urls";
 import {withRouter} from "react-router-dom";
+import CashFlowCreatePage from "../shared/crud/CashFlowCreatePage";
+import {COST} from "../../configuration/validation-schemas";
+import {COST_EDIT_PAGE_URL, COST_PAGE_URL} from "../../configuration/application-urls";
 
 const service = applicationContext.costService;
-const uiService = applicationContext.uiService;
 
 @withRouter
 class CostCreatePage extends Component {
     render() {
-        return <AppLayout title="Add a cost">
-            <CostForm
-                handleSubmit={this.handleSubmit}
-            />
-        </AppLayout>;
+        return <CashFlowCreatePage title="Add a cost" service={service} validationSchema={COST} listUrl={COST_PAGE_URL} editUrl={COST_EDIT_PAGE_URL}/>
     }
-
-    handleSubmit = async (values, {setSubmitting}) => {
-        try {
-            const result = await service.save(values);
-
-            uiService.showSuccessSnackbar({message: "Record successfully created!"});
-            this.props.history.push(COST_EDIT_PAGE_URL.replace(":id", result.id));
-        } catch (e) {
-            setSubmitting(false);
-            uiService.showErrorSnackbar({message: "There was a problem while trying to create record!"});
-            console.error(e);
-        }
-    };
 }
 
 export default CostCreatePage;

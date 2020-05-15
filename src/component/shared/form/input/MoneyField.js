@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 
 class NumberFormatBridge extends Component {
     render() {
-        const {field, form, inputRef, ...rest} = this.props;
+        const {field, form, inputRef, onChange, ...rest} = this.props;
 
         return (
             <NumberFormat

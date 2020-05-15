@@ -49,7 +49,7 @@ class Application extends Component {
         return <ThemeProvider theme={theme}>
             <MuiPickersUtilsProvider utils={MomentUtils}>
                 <CssBaseline/>
-                <BrowserRouter>
+                <BrowserRouter basename={process.env.PUBLIC_URL}>
                     <Switch>
                         <Route exact path={HOMEPAGE_URL}>
                             <Redirect to={DEFAULT_PAGE_URL}/>

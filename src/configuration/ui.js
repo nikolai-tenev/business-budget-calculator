@@ -8,3 +8,5 @@ export const SNACKBAR_POSITION = {
 export const SNACKBAR_DURATION = 2000;
 
 export const PAGINATION_ROWS_PER_PAGE_OPTIONS = [10, 20, 50];
+
+export const MAX_DASHBOARD_SHOWN_FUTURE_YEARS = 5;

@@ -1,4 +1,4 @@
-export const CostTypes = {
+export const CashFlowTypes = {
     ONE_TIME: {
         id: "ONE_TIME",
         label: "One time"

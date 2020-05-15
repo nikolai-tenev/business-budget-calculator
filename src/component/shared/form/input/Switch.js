@@ -5,9 +5,9 @@ import React from "react";
 
 const SwitchBridge = ({field, form, ...rest}) => {
     return <FormControlLabel
-        control={<MuiSwitch {...field} />}
+        control={<MuiSwitch {...field}/>}
         {...rest}
     />
 };
 
-export const Switch = (props) => <Field {...props} component={SwitchBridge}/>;
+export const Switch = (props) => <Field {...props} type="checkbox" component={SwitchBridge}/>;
