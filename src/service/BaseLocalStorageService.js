@@ -258,7 +258,7 @@ export class BaseLocalStorageService extends BaseService {
                 id = (keys.length + 1).toString();
                 oldRecord = {id};
             } else {
-                oldRecord = await localforage.getItem(id);
+                oldRecord = await this.store.getItem(id);
             }
 
             return await this.store.setItem(id, {...oldRecord, ...values});
